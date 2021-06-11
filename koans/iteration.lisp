@@ -22,10 +22,10 @@
       (dolist (number numbers)
         ;; (INCF PLACE N) is equivalent to (SETF PLACE (+ N PLACE)).
         (incf sum number))
-      (assert-equal ____ sum))
+      (assert-equal 108 sum))
     ;; DOLIST can optionally return a value.
     (let ((sum 0))
-      (assert-equal ____ (dolist (number numbers sum)
+      (assert-equal 108 (dolist (number numbers sum)
                            (incf sum number))))))
 
 (define-test dotimes
@@ -34,10 +34,10 @@
   (let ((stack '()))
     (dotimes (i 5)
       (push i stack))
-    (assert-equal ____ stack))
+    (assert-equal '(4 3 2 1 0) stack))
   ;; DOTIMES can optionally return a value.
   (let ((stack '()))
-    (assert-equal ____ (dotimes (i 5 stack)
+    (assert-equal '(4 3 2 1 0) (dotimes (i 5 stack)
                          (push i stack)))))
 
 (define-test do
@@ -47,7 +47,7 @@
     (do ((i 0 (1+ i)))
         ((> i 5))
       (push i result))
-    (assert-equal ____ result))
+    (assert-equal '(5 4 3 2 1 0) result))
   ;; The epilogue of DO can return a value.
   (let ((result (do ((i 0 (1+ i))
                      ;; A variable bound by DO noes not need to be updated on
@@ -55,7 +55,7 @@
                      (result '()))
                     ((> i 5) (nreverse result))
                   (push i result))))
-    (assert-equal ____ result)))
+    (assert-equal '(0 1 2 3 4 5) result)))
 
 (define-test loop-basic-form
   ;; The macro LOOP in its simple form loops forever. It is possible to stop the
@@ -64,10 +64,10 @@
     (loop (incf counter)
           (when (>= counter 100)
             (return counter)))
-    (assert-equal ____ counter))
+    (assert-equal 100 counter))
   ;; The RETURN special form can return a value out of a LOOP.
   (let ((counter 0))
-    (assert-equal ____ (loop (incf counter)
+    (assert-equal 100 (loop (incf counter)
                              (when (>= counter 100)
                                (return counter)))))
   ;; The extended form of LOOP will be contemplated in a future koan.

@@ -19,29 +19,29 @@
 (define-test vector-basics
   ;; #(...) is syntax sugar for defining literal vectors.
   (let ((vector #(1 11 111)))
-    (true-or-false? ____ (typep vector 'vector))
-    (assert-equal ____ (aref vector 1))))
+    (true-or-false? t (typep vector 'vector))
+    (assert-equal 11 (aref vector 1))))
 
 (define-test length
   ;; The function LENGTH works both for vectors and for lists.
-  (assert-equal ____ (length '(1 2 3)))
-  (assert-equal ____ (length #(1 2 3))))
+  (assert-equal 3 (length '(1 2 3)))
+  (assert-equal 3 (length #(1 2 3))))
 
 (define-test bit-vector
   ;; #*0011 defines a bit vector literal with four elements: 0, 0, 1 and 1.
-  (assert-equal #*0011 (make-array 4 :element-type 'bit :initial-contents ____))
-  (true-or-false? ____ (typep #*1001 'bit-vector))
-  (assert-equal ____ (aref #*1001 1)))
+  (assert-equal #*0011 (make-array 4 :element-type 'bit :initial-contents '(0 0 1 1)))
+  (true-or-false? t (typep #*1001 'bit-vector))
+  (assert-equal 0 (aref #*1001 1)))
 
 (define-test bitwise-operations
   ;; Lisp defines a few bitwise operations that work on bit vectors.
-  (assert-equal ____ (bit-and #*1100 #*1010))
-  (assert-equal ____ (bit-ior #*1100 #*1010))
-  (assert-equal ____ (bit-xor #*1100 #*1010)))
+  (assert-equal #*1000 (bit-and #*1100 #*1010))
+  (assert-equal #*1110 (bit-ior #*1100 #*1010))
+  (assert-equal #*0110 (bit-xor #*1100 #*1010)))
 
 (defun list-to-bit-vector (list)
   ;; Implement a function that turns a list into a bit vector.
-  ____)
+  (make-array (length list) :element-type 'bit :initial-contents list))
 
 (define-test list-to-bit-vector
   ;; You need to fill in the blank in LIST-TO-BIT-VECTOR.

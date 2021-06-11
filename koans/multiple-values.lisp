@@ -22,7 +22,7 @@
         (y (multiple-value-list (floor 3/2))))
     (assert-equal x 1)
     (assert-equal y '(1 1/2)))
-  (assert-equal ____ (multiple-value-list (floor 99/4))))
+  (assert-equal '(24 3/4) (multiple-value-list (floor 99/4))))
 
 (defun next-fib (a b)
   ;; The function VALUES allows returning multiple values.
@@ -34,8 +34,8 @@
   ;; second argument.
   (multiple-value-bind (x y) (next-fib 3 5)
     (let ((result (* x y)))
-      (assert-equal ____ result)))
+      (assert-equal (* 5 8) result)))
   ;; SETF can also set multiple values if a VALUES form is provided as a place.
   (let (x y)
     (setf (values x y) (next-fib 5 8))
-    (assert-equal ____ (list x y))))
+    (assert-equal '(8 13) (list x y))))
