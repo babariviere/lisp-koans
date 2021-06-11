@@ -49,8 +49,19 @@
 ;;;
 ;;; Your goal is to write the scoring function for Greed.
 
+;; Group by
 (defun score (&rest dice)
-  ____)
+  (let ((throw-counts (make-hash-table :test #'equal)))
+    (dolist (throw dice)
+      (incf (gethash throw throw-counts 0)))
+    (loop for throw being the hash-key of throw-counts
+            using (hash-value count)
+          collect (case throw
+                    ((2 3 4 6) (* 100 throw (floor (/ count 3))))
+                    (1 (+ (* 1000 (floor (/ count 3))) (* 100 (mod count 3))))
+                    (5 (+ (* 500 (floor (/ count 3))) (* 50 (mod count 3))))
+                    (t 0)) into score
+          finally (return (reduce #'+ score)))))
 
 (define-test score-of-an-empty-list-is-zero
   (assert-equal 0 (score)))
