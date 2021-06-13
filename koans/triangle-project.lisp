@@ -14,11 +14,19 @@
 
 (define-condition triangle-error (error)
   ;; Fill in the blank with a suitable slot definition.
-  (____))
+  ((sides :initarg :sides :reader triangle-error-sides)))
 
 (defun triangle (a b c)
   ;; Fill in the blank with a function that satisfies the below tests.
-  ____)
+  (check-type a (real (0)))
+  (check-type b (real (0)))
+  (check-type c (real (0)))
+  (cond
+    ((or (>= c (+ a b)) (>= a (+ b c)) (>= b (+ a c)))
+     (error 'triangle-error :sides (list a b c)))
+    ((= a b c) :equilateral)
+    ((or (= a b) (= b c) (= a c)) :isosceles)
+    (t :scalene)))
 
 (define-test equilateral-triangles
   ;; Equilateral triangles have three sides of equal length,

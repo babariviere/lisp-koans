@@ -18,28 +18,32 @@
 
 (defclass dice-set ()
   ;; Fill in the blank with a proper slot definition.
-  (____))
+  ((dices :initform '() :accessor dices)))
 
 ;;; This method might be unnecessary, depending on how you define the slots of
 ;;; DICE-SET.
 
 (defmethod dice-values ((object dice-set))
-  ____)
+  (dices object))
 
 (defmethod roll (count (object dice-set))
-  ____)
+  (check-type count (integer 1))
+  (setf (dices object)
+        (loop for i from 1 upto count
+              as n =  (1+ (random 6))
+              collect n)))
 
 (define-test make-dice-set
-  (let ((dice (make-instance 'dice-set)))
-    (assert-true (typep dice 'dice-set))))
+    (let ((dice (make-instance 'dice-set)))
+      (assert-true (typep dice 'dice-set))))
 
 (define-test dice-are-six-sided
-  (let ((dice (make-instance 'dice-set)))
-    (roll 5 dice)
-    (assert-true (typep (dice-values dice) 'list))
-    (assert-equal 5 (length (dice-values dice)))
-    (dolist (die (dice-values dice))
-      (assert-true (typep die '(integer 1 6))))))
+    (let ((dice (make-instance 'dice-set)))
+      (roll 5 dice)
+      (assert-true (typep (dice-values dice) 'list))
+      (assert-equal 5 (length (dice-values dice)))
+      (dolist (die (dice-values dice))
+        (assert-true (typep die '(integer 1 6))))))
 
 (define-test dice-values-do-not-change-without-rolling
   (let ((dice (make-instance 'dice-set)))
