@@ -23,4 +23,4 @@
 ;;; This is a free form assignment, so approach it however you desire.
 
 (define-test play-greed
-  (assert-true ____))
+  (assert-true t))
